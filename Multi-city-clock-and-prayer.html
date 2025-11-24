@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      .led-text {
+        color: #ff0f0f;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 2px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-black flex items-center justify-center min-h-screen p-4">
+    <div class="text-center w-full max-w-3xl">
+      <!-- DATE -->
+      <div class="flex justify-center items-center mb-4">
+        <div class="text-2xl md:text-4xl led-text text-white" id="dateBox">
+          2025 - 11 - 22
+        </div>
+      </div>
+
+      <!-- MAIN CLOCK -->
+      <div
+        class="py-4 font-bold led-text flex flex-col md:flex-row items-center justify-center gap-4"
+      >
+        <div
+          class="flex items-center justify-center text-6xl md:text-7xl lg:text-8xl gap-3"
+        >
+          <span id="hours"></span>
+          <span class="text-white">:</span>
+          <span id="minutes"></span>
+          <span class="text-white">:</span>
+          <span id="seconds"></span>
+        </div>
+
+        <!-- PM/AM -->
+        <div class="text-2xl md:text-3xl led-text text-white" id="pmText">
+          PM
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
+
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+
+        // AM/PM
+        const isPM = hours >= 12;
+        document.getElementById("pmText").innerText = isPM ? "PM" : "AM";
+
+        // 12-hour format
+        hours = hours % 12 || 12;
+        hours = hours < 10 ? "0" + hours : hours;
+
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+
+        // Date format
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        document.getElementById("dateBox").innerText = now.toLocaleDateString(
+          "en-US",
+          options
+        );
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+  </body>
+</html>
